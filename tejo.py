@@ -77,7 +77,7 @@ while True:#loop principal del juego
     #DISPLAYSURF.blit(ImJup,centro+Rj-rs-rj)    
     
     ball.andar()
-    ball.rebotar(size_pantalla)
+    ball.rebotar(size_pantalla, jugador1, jugador)
     ball.gol(size_pantalla[Y])
     jugador1.mover(pygame.key.get_pressed(),size_pantalla)
     jugador2.mover(pygame.key.get_pressed(),size_pantalla)

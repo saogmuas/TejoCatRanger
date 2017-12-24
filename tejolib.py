@@ -29,8 +29,17 @@ class Pelota:
         self.ballrect = self.ballrect.move(self.velocidad)
         self.posicion = self.ballrect.center
         
-    def rebotar(self, size_pantalla):
-        if self.ballrect.left < 0 or self.ballrect.right > size_pantalla[X]:
+    def rebotar(self, size_pantalla, jugador1, jugador2):
+		bordes1 = [jugador1.imagenrect.bottom, jugador1.imagenrect.top]
+		bordes2 = [jugador2.imagenrect.bottom, jugador2.imagenrect.top]
+        if (self.ballrect.left < jugador1.imagenrect.right and \
+        ((self.ballrect.top <= bordes1[1] and \
+        self.ballrect.top >= bordes1[0]) or \
+        (self.ballrect.bottom <= bordes1[1] and \
+        self.ballrect.bottom >= bordes1[0])) )) or \
+        (self.ballrect.right > jugador2.imagenrect.left and \
+        CHOCA CON 2):
+			
             self.velocidad[X] = -self.velocidad[X]
         if self.ballrect.top < 0 or self.ballrect.bottom > size_pantalla[Y]:
             self.velocidad[Y] = -self.velocidad[Y]
@@ -69,4 +78,7 @@ class Jugador:
 		self.posicion = self.imagenrect.center
 			
 			
-			
+class Chocar:
+	
+	
+	self.rect.colliderect(cuadrado2.rect)
