@@ -68,37 +68,9 @@ while True:#loop principal del juego
         if event.type == QUIT:
             pygame.quit()#sale de pygame
             sys.exit()#sale del programa
+        if pygame.key.get_focused:
+			moverJ()
+        
             
     pygame.display.update()
     fpsClock.tick(FPS)
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

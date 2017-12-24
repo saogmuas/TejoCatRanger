@@ -40,4 +40,24 @@ class Pelota:
     		return 2
     	return 0
 
-
+class Jugador:
+	
+	def __init__(self, posicion, nombre, imagen):
+		self.posicion = posicion
+		self.nombre = nombre
+		self.imagen = imagen
+		self.imagenrect = self.imagen.get_rect()
+	
+	def moverJ(self, keypress, ):
+		#keypress es de tipo "keypress" de pygame
+		if self.nombre == 1:
+			if keypress == K_q:
+				self.posicion[Y] -=	dx
+			if keypress == K_a:
+				self.posicion[Y] += dx
+		else:
+			if keypress == K_UP:
+				self.posicion[Y] -=	dx
+			if keypress == K_DOWN:
+				self.posicion[Y] += dx
+	
