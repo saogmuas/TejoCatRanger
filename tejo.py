@@ -40,11 +40,25 @@ DARK=(0,0,0)
 
 #_______________Imagenes_____________________
 ball_im = pygame.image.load("ball.png")
+jugador1_im = pygame.image.load("jugador1.png")
+jugador2_im = pygame.image.load("jugador2.png")
+
 # ImJup=pygame.image.load("Jupiter.png")
 # ImSol=pygame.image.load("Sol.png")
 
 #_______________Objetos______________________
 ball = Pelota(np.array(pantalla_centro, dtype = np.float64), 10*(np.random.rand(2)*2-1), 10, ball_im)
+
+teclas_j1 = Jteclas()
+teclas_j1.up = K_q
+teclas_j1.down = K_a
+jugador1 = Jugador(np.array([100,pantalla_centro[Y]], dtype = np.float64), "cat1", jugador1_im, teclas_j1)
+
+
+teclas_j2 = Jteclas()
+teclas_j2.up = K_UP
+teclas_j2.down = K_DOWN
+jugador2 = Jugador(np.array([size_pantalla[X]-100,pantalla_centro[Y]], dtype = np.float64), "whitecat", jugador2_im, teclas_j2)
 
 
 ###############################################################################
@@ -54,7 +68,9 @@ ball = Pelota(np.array(pantalla_centro, dtype = np.float64), 10*(np.random.rand(
 #pygame.mixer.music.play(-1, 0.0)
 while True:#loop principal del juego
     screen.fill(DARK)
-    screen.blit(ball.imagen, ball.ballrect)
+    screen.blit(ball.imagen, ball.posicion)
+    screen.blit(jugador1.imagen, jugador1.posicion)
+    screen.blit(jugador2.imagen, jugador2.posicion)
     
     #DISPLAYSURF.blit(ImSol,centro-rs)    
     #DISPLAYSURF.blit(ImTerra,post)   
@@ -63,14 +79,15 @@ while True:#loop principal del juego
     ball.andar()
     ball.rebotar(size_pantalla)
     ball.gol(size_pantalla[Y])
-    
+    jugador1.mover(pygame.key.get_pressed(),size_pantalla)
+    jugador2.mover(pygame.key.get_pressed(),size_pantalla)
+			
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()#sale de pygame
             sys.exit()#sale del programa
-        if pygame.key.get_focused:
-			moverJ()
-        
+        #if pygame.key.get_focused:
+			
             
     pygame.display.update()
     fpsClock.tick(FPS)

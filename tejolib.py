@@ -12,6 +12,8 @@ from pygame.locals import *   #constantes de pygames
 
 X = 0
 Y = 1
+dy = 10
+JUGADOR_VELOCIDAD = 10
 
 class Pelota:
     
@@ -21,10 +23,11 @@ class Pelota:
         self.radio = radio
         self.imagen = imagen
         self.ballrect = self.imagen.get_rect()
+        self.ballrect.center = posicion
         
     def andar(self):
         self.ballrect = self.ballrect.move(self.velocidad)
-        #self.posicion += self.velocidad*dt
+        self.posicion = self.ballrect.center
         
     def rebotar(self, size_pantalla):
         if self.ballrect.left < 0 or self.ballrect.right > size_pantalla[X]:
@@ -40,24 +43,30 @@ class Pelota:
     		return 2
     	return 0
 
+
+class Jteclas:
+	up = None
+	down = None
+
+
 class Jugador:
 	
-	def __init__(self, posicion, nombre, imagen):
+	def __init__(self, posicion, nombre, imagen, teclas):
 		self.posicion = posicion
 		self.nombre = nombre
 		self.imagen = imagen
 		self.imagenrect = self.imagen.get_rect()
+		self.imagenrect.center = self.posicion
+		self.teclas = teclas
 	
-	def moverJ(self, keypress, ):
+	def mover(self, keypress, size_pantalla):
 		#keypress es de tipo "keypress" de pygame
-		if self.nombre == 1:
-			if keypress == K_q:
-				self.posicion[Y] -=	dx
-			if keypress == K_a:
-				self.posicion[Y] += dx
-		else:
-			if keypress == K_UP:
-				self.posicion[Y] -=	dx
-			if keypress == K_DOWN:
-				self.posicion[Y] += dx
-	
+		#pygame.time.delay(100)
+		if keypress[self.teclas.up]:
+			self.imagenrect = self.imagenrect.move([0, -JUGADOR_VELOCIDAD])
+		if keypress[self.teclas.down]:
+			self.imagenrect = self.imagenrect.move([0, JUGADOR_VELOCIDAD])
+		self.posicion = self.imagenrect.center
+			
+			
+			
