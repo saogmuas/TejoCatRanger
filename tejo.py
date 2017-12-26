@@ -93,10 +93,10 @@ while goles1<3 and goles2<3:#loop principal del juego
         goles2 += 1
         print("{} - {}".format(goles1,goles2))
 	
-    #for event in pygame.event.get():
-     #   if event.type == QUIT:
-      #      pygame.quit()#sale de pygame
-       #     sys.exit()#sale del programa
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()#sale de pygame
+            sys.exit()#sale del programa
         #if pygame.key.get_focused:
 			
             
