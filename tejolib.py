@@ -32,7 +32,7 @@ class Pelota:
         
     def rebotar(self, size_pantalla, j1, j2):#rebotar contra una pared
         if self.ballrect.left < 0 or self.ballrect.right > size_pantalla[X]:
-            self.velocidad[X] = -self.velocidad[X]
+            #si choca contra el borde. o sea, hay gol
             self.entro = True
         if self.ballrect.top < 0 or self.ballrect.bottom > size_pantalla[Y]:
             #si choca contra el techo o el piso
