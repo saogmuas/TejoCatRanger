@@ -52,13 +52,13 @@ ball = Pelota(np.array(pantalla_centro, dtype = np.float64), 10*(np.random.rand(
 teclas_j1 = Jteclas()
 teclas_j1.up = K_q
 teclas_j1.down = K_a
-jugador1 = Jugador(np.array([100,pantalla_centro[Y]], dtype = np.float64), "cat1", jugador1_im, teclas_j1)
+jugador1 = Jugador(np.array([10,pantalla_centro[Y]], dtype = np.float64), "cat1", jugador1_im, teclas_j1)
 
 
 teclas_j2 = Jteclas()
 teclas_j2.up = K_UP
 teclas_j2.down = K_DOWN
-jugador2 = Jugador(np.array([size_pantalla[X]-100,pantalla_centro[Y]], dtype = np.float64), "whitecat", jugador2_im, teclas_j2)
+jugador2 = Jugador(np.array([size_pantalla[X]-50,pantalla_centro[Y]], dtype = np.float64), "whitecat", jugador2_im, teclas_j2)
 
 
 ###############################################################################
@@ -77,11 +77,18 @@ while True:#loop principal del juego
     #DISPLAYSURF.blit(ImJup,centro+Rj-rs-rj)    
     
     ball.andar()
-    ball.rebotar(size_pantalla, jugador1, jugador)
-    ball.gol(size_pantalla[Y])
+    ball.rebotar(size_pantalla, jugador1, jugador2)
     jugador1.mover(pygame.key.get_pressed(),size_pantalla)
     jugador2.mover(pygame.key.get_pressed(),size_pantalla)
-			
+    
+    g = ball.gol(size_pantalla[X])
+    if g==1:
+        jugador1.goles += 1
+        print("{} - {}".format(jugador1.goles,jugador2.goles))
+    if g==2:
+        jugador2.goles += 1
+        print("{} - {}".format(jugador1.goles,jugador2.goles))
+	
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()#sale de pygame
