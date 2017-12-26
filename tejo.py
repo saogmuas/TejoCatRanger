@@ -48,6 +48,8 @@ jugador2_im = pygame.image.load("jugador2.png")
 
 #_______________Objetos______________________
 ball = Pelota(np.array(pantalla_centro, dtype = np.float64), 10*(np.random.rand(2)*2-1), 10, ball_im)
+goles1 = 0
+goles2 = 0
 
 teclas_j1 = Jteclas()
 teclas_j1.up = K_q
@@ -66,7 +68,7 @@ jugador2 = Jugador(np.array([size_pantalla[X]-50,pantalla_centro[Y]], dtype = np
 ###############################################################################
 
 #pygame.mixer.music.play(-1, 0.0)
-while True:#loop principal del juego
+while goles1<3 and goles2<3:#loop principal del juego
     screen.fill(DARK)
     screen.blit(ball.imagen, ball.posicion)
     screen.blit(jugador1.imagen, jugador1.posicion)
@@ -77,24 +79,32 @@ while True:#loop principal del juego
     #DISPLAYSURF.blit(ImJup,centro+Rj-rs-rj)    
     
     ball.andar()
-    ball.rebotar(size_pantalla, jugador1, jugador2)
+    bordes1 = [jugador1.imagenrect.right, jugador1.imagenrect.bottom, jugador1.imagenrect.top]
+    bordes2 = [jugador2.imagenrect.left, jugador2.imagenrect.bottom, jugador2.imagenrect.top]
+    ball.rebotar(size_pantalla, bordes1, bordes2)
     jugador1.mover(pygame.key.get_pressed(),size_pantalla)
     jugador2.mover(pygame.key.get_pressed(),size_pantalla)
     
-    g = ball.gol(size_pantalla[X])
+    g = ball.gol(size_pantalla[X],pantalla_centro)
     if g==1:
-        jugador1.goles += 1
-        print("{} - {}".format(jugador1.goles,jugador2.goles))
+        goles1 += 1
+        print("{} - {}".format(goles1,goles2))
     if g==2:
-        jugador2.goles += 1
-        print("{} - {}".format(jugador1.goles,jugador2.goles))
+        goles2 += 1
+        print("{} - {}".format(goles1,goles2))
 	
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()#sale de pygame
-            sys.exit()#sale del programa
+    #for event in pygame.event.get():
+     #   if event.type == QUIT:
+      #      pygame.quit()#sale de pygame
+       #     sys.exit()#sale del programa
         #if pygame.key.get_focused:
 			
             
     pygame.display.update()
     fpsClock.tick(FPS)
+
+pygame.quit()
+if goles1==10:
+    print("Gano el jugador 1")
+else:
+    print("Gano el jugador 2")

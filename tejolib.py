@@ -30,38 +30,35 @@ class Pelota:
         self.ballrect = self.ballrect.move(self.velocidad)
         self.posicion = self.ballrect.center
         
-    def rebotar(self, size_pantalla, jugador1, jugador2):#rebotar contra una pared
-		if self.ballrect.left < 0 or self.ballrect.right > size_pantalla[X]:
-			self.velocidad[X] = -self.velocidad[X]
-			self.entro = True
-		if self.ballrect.top < 0 or self.ballrect.bottom > size_pantalla[Y]:
-			self.velocidad[Y] = -self.velocidad[Y]
-		
-		'''
-		bordes1 = [jugador1.imagenrect.bottom, jugador1.imagenrect.top]
-		bordes2 = [jugador2.imagenrect.bottom, jugador2.imagenrect.top]
-        if (self.ballrect.left < jugador1.imagenrect.right and \
-        ((self.ballrect.top <= bordes1[1] and \
-        self.ballrect.top >= bordes1[0]) or \
-        (self.ballrect.bottom <= bordes1[1] and \
-        self.ballrect.bottom >= bordes1[0])) )) or \
-        (self.ballrect.right > jugador2.imagenrect.left and \
-        CHOCA CON 2):
-			
+    def rebotar(self, size_pantalla, j1, j2):#rebotar contra una pared
+        if self.ballrect.left < 0 or self.ballrect.right > size_pantalla[X]:
             self.velocidad[X] = -self.velocidad[X]
+            self.entro = True
         if self.ballrect.top < 0 or self.ballrect.bottom > size_pantalla[Y]:
-            self.velocidad[Y] = -self.velocidad[Y]'''
-    	#self.velocidad = velocidad
+            #si choca contra el techo o el piso
+            self.velocidad[Y] = -self.velocidad[Y]
+            
+        if self.ballrect.left <= j1[0] and self.ballrect.top <= j1[2] and self.ballrect.top >= j1[1]:
+			#si choca contra el jugador 1
+            self.velocidad[X] = -self.velocidad[X]
+        
+        if self.ballrect.right <= j2[0] and self.ballrect.top <= j2[2] and self.ballrect.top >= j2[1]:
+			#si choca con el jugador 2
+            self.velocidad[X] = -self.velocidad[X]
 
-    def gol(self,cancha_ancho):
-		g = 0
-		if self.entro:
-			if self.ballrect.left<=0:
-				g = 1
-			if self.ballrect.right>=cancha_ancho:
-				g = 2
-			self.entro = False
-		return g
+
+    def gol(self,cancha_ancho,pantalla_centro):
+        g = 0
+        if self.entro:
+            if self.ballrect.left<=0:
+                g = 1
+            if self.ballrect.right>=cancha_ancho:
+                g = 2
+            self.entro = False
+            self.posicion = np.array(pantalla_centro, dtype = np.float64)
+            self.ballrect = self.imagen.get_rect()
+            self.ballrect.center = self.posicion
+        return g
 
 class Jteclas:
 	up = None
@@ -77,7 +74,6 @@ class Jugador:
 		self.imagenrect = self.imagen.get_rect()
 		self.imagenrect.center = self.posicion
 		self.teclas = teclas
-		self.goles = 0
 	
 	def mover(self, keypress, size_pantalla):
 		#keypress es de tipo "keypress" de pygame
@@ -88,10 +84,3 @@ class Jugador:
 			self.imagenrect = self.imagenrect.move([0, JUGADOR_VELOCIDAD])
 		self.posicion = self.imagenrect.center
 			
-			
-#class Chocar:#va a checkear 
-	
-#	def __init__(self, jugador1, jugador2, pelota)
-	
-	
-#	self.rect.colliderect(cuadrado2.rect)
